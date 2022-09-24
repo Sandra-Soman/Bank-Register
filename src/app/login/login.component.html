@@ -12,16 +12,16 @@
             </div>
             <div class="mb-3">
                 <label for="acid"  class="form-label"> Account Number</label>
-                <input type="text" [placeholder]="acnt" (change)="acnoChange($event)" class="form-control" id="acid">
+                <input type="text" [placeholder]="acnt" #acno class="form-control" id="acid">
             </div>
   
             <div class="mb-3">
                 <label for="pid" class="form-label">Password</label>
-                <input type="password" (change)="pswChange($event)" class="form-control" id="pid">
+                <input type="password" #psw class="form-control" id="pid">
             </div>
   
             <div class="text-center">
-                <button type="button" class="btn btn-outline-primary mb-3 w-50 mt-3" (click)="login()">LogIn</button></div>
+                <button type="button" class="btn btn-outline-primary mb-3 w-50 mt-3" (click)="login(acno,psw)">LogIn</button></div>
             <div class="text-center">
                 <p class="fs-6">Don't have an account? <button type="button" class="btn btn-info" (click)="register()"> Register here</button>
                     <!-- <a href="./reg.html"> Create</a> -->
