@@ -1,5 +1,7 @@
-import { animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -7,78 +9,94 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  
 
-aim='YOUR PERFECT BANKING PARTNER'
-acnt="Enter your account number"
+  aim='Your perfect banking partner'
+  acnt='enter your ac number'
 
-acno=''
-psw='' //empty string
+  acno=''
+  psw=''
 
-  userDetails:any={
-    1000:{acno:1000,username:"Ammu",password:123,balance:10000},
-    1001:{acno:1001,username:"Anu",password:123,balance:50000},
-    1002:{acno:1002,username:"Sandra",password:123,balance:600000},
-    1003:{acno:1003,username:"Diya",password:123,balance:12000},
+ 
+  loginForm=this.fb.group({
+    acno:['',[Validators.required,Validators.pattern('[0-9]+')]],
+    psw:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]+')]]
+    
 
-  }
+  })
 
-  constructor() { } // constructor: initialization  of instance variable while creating class
+
+
+
+
+  constructor(private router:Router,private ds: DataService,private fb:FormBuilder) { }
 
   ngOnInit(): void {
   }
 
-// login(){
-//   var acno=this.acno
-//   var psw=this.psw
+
+login(){
+var acnum=this.loginForm.value.acno
+var psw=this.loginForm.value.psw 
+
+ const result=this.ds.login(acnum,psw)
+ if(this.loginForm.valid){
+  if (result){
+    alert('login sucess')
+    this.router.navigateByUrl('dashboard')
+   }
+  
+  
+ }
+ else{
+  alert('invalid form')
+ }
+ 
+// let userDetails=this.userDetails
+// if(acnum in userDetails){
+//   if(psw==userDetails[acnum]['password']){
+//     alert('login sucess')
+//     //redirection
+// this.router.navigateByUrl('dashboard')
+
+//   }
+//   else{
+//     alert('user not exist or incorrect password')
+//   }
+}
+
+// login(a:any,b:any){
+// console.log(a.value);
+// console.log(b.value);
+
+
+
+
+
+//   var acnum=a.value
+//   var psw=b.value
 //   let userDetails=this.userDetails
-//   if(acno in userDetails){
-//     if(psw== userDetails[acno]['password']){
-//       alert("login success")
+//   if(acnum in userDetails){
+//     if(psw==userDetails[acnum]['password']){
+//       alert("login sucess")
 //     }
 //     else{
-//       alert("incorrect password")
+//       alert("user not exist or incorrect password")
 //     }
 //   }
-// else{
-//   alert("user not exist or incorrect password")
-// }}
-
-
-login(a:any,b:any){
-  console.log(a.value);
-  console.log(b.value);
   
-  
-  var acno=a.value
-  var psw=b.value
-  let userDetails=this.userDetails
-  if(acno in userDetails){
-    if(psw== userDetails[acno]['password']){
-      alert("login success")
-    }
-    else{
-      alert("incorrect password")
-    }
-  }
-else{
-  alert("user not exist or incorrect password")
-}}
 
+//   alert('login clicked')
+// }
 
-
-
-
-register(){
-  alert("register here")
-}
-}
 // acnoChange(event:any){
 //   this.acno=event.target.value
-//   console.log(this.acno);
+//   console.log(this.acno)
 // }
 
 // pswChange(event:any){
 //   this.psw=event.target.value
-//   // console.log(this.psw);
+//   console.log(this.psw)
 // }
-// }
+ }
+
